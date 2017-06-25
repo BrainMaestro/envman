@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+foreach (['/vendor/autoload.php', '/../../autoload.php'] as $file) {
+    if (file_exists(__DIR__ . $file)) {
+        require __DIR__ . $file;
+    }
+}
+
+use Symfony\Component\Console\Application;
+
+$application = new Application('Envman', 'v0.1.0');
+
+$application->run();
