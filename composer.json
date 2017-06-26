@@ -12,6 +12,16 @@
     "bin": [
         "envman"
     ],
+    "autoload": {
+        "psr-4": {
+            "BrainMaestro\\Envman\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BrainMaestro\\Envman\\Tests\\": "tests/"
+        }
+    },
     "require": {
         "symfony/console": "^3.3"
     },
