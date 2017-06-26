@@ -22,6 +22,5 @@ $application = new Application('Envman', 'v0.1.0');
 
 $application->add($build = new Build);
 $application->add(new Add);
-// $application->setDefaultCommand($build->getName());
 
 $application->run();

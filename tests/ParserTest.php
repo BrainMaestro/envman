@@ -7,6 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class ParserTest extends TestCase
 {
+    use TestUtil;
+
     protected $parser;
 
     public function setUp()
@@ -35,8 +37,7 @@ class ParserTest extends TestCase
         $this->assertEquals('.env.app', $parsedEnv['APP_KEY'][0]['file']);
         $this->assertEquals('.env.auth', $parsedEnv['AUTH_API'][0]['file']);
 
-        unlink('.env.app');
-        unlink('.env.auth');
+        $this->delete('.', 'app', 'auth');
     }
 
     /**
@@ -58,8 +59,7 @@ class ParserTest extends TestCase
         $this->assertEquals('.env.app', $parsedEnv['APP_NAME'][0]['file']);
         $this->assertEquals('.env.auth', $parsedEnv['APP_NAME'][1]['file']);
 
-        unlink('.env.app');
-        unlink('.env.auth');
+        $this->delete('.', 'app', 'auth');
     }
 
     /**
@@ -80,8 +80,7 @@ class ParserTest extends TestCase
         $this->assertEquals('env-test-app', $parsedEnv['APP_NAME'][0]['value']);
         $this->assertEquals('./environment/.env.app', $parsedEnv['APP_NAME'][0]['file']);
 
-        unlink('./environment/.env.app');
-        rmdir('./environment');
+        $this->delete('environment', 'app');
     }
 
     /**
@@ -94,6 +93,6 @@ class ParserTest extends TestCase
         $this->assertEquals($this->parser->envExists('APP_NAME'), '.env.app');
         $this->assertNull($this->parser->envExists('APP_KEY'));
 
-        unlink('.env.app');
+        $this->delete('.', 'app');
     }
 }
