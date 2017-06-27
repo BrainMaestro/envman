@@ -68,6 +68,10 @@ final class Parser
      */
     private static function getDirectoryEnvFiles(string $directory): array
     {
+        if (! is_dir($directory)) {
+            return [];
+        }
+
         return array_filter(scandir($directory), function (string $file) {
             return preg_match('/^\.env\./', $file);
         });
