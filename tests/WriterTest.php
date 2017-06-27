@@ -18,14 +18,17 @@ class WriterTest extends TestCase
         $env = new Env;
         $env->add('APP_NAME', 'env-test-app', '.env.app');
         $env->add('APP_KEY', 'abcdef', '.env.app');
-        $env->add('APP_NAME', 'env-test-auth', '.env.auth', true);
+        $env->add('APP_NAME', 'env-test-auth', '.env.auth', '.', true);
+        $env->add('DB_HOST', 'localhost', '.env.db', 'staging');
 
-        (new Writer($env))->write();
+        Writer::write($env);
 
         $this->assertEquals('APP_KEY=abcdef\nAPP_NAME=env-test-app', file_get_contents('.env.app'));
         $this->assertEquals('APP_NAME=env-test-auth', file_get_contents('.env.auth'));
+        $this->assertEquals('DB_HOST=localhost', file_get_contents('staging/.env.db'));
 
         $this->delete('.', 'app', 'auth');
+        $this->delete('staging', 'db');
     }
 
     /**
@@ -37,7 +40,7 @@ class WriterTest extends TestCase
         $env = new Env;
         $env->add('APP_NAME', 'env-test-app', '.env.app');
 
-        (new Writer($env))->write();
+        Writer::write($env);
 
         $this->assertEquals('APP_NAME=env-test-app', file_get_contents('.env.app'));
 
