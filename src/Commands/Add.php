@@ -53,7 +53,7 @@ class Add extends Command
             $file = "{$directory}/{$file}";
         }
 
-        if (! $env->add($key, $value, $file, $directory, $duplicates)) {
+        if (! $env->add($key, $value, $file, $duplicates)) {
             $files = implode(', ', $env->files($key));
             $output->writeln("<error>{$key} already exists in {$files}</error>");
             return;

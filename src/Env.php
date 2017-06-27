@@ -12,18 +12,13 @@ class Env
      * @param string $key
      * @param string $value
      * @param string $file
-     * @param string $directory
      * @param bool $duplicates
      * @return bool
      */
-    public function add(string $key, string $value, string $file, string $directory = '.', bool $duplicates = false): bool
+    public function add(string $key, string $value, string $file, bool $duplicates = false): bool
     {
         if (! $duplicates && $this->has($key)) {
             return false;
-        }
-
-        if ($directory !== '.') {
-            $file = "{$directory}/{$file}";
         }
 
         $this->env[$key] = $this->env[$key] ?? [];

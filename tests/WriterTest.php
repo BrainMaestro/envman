@@ -18,8 +18,8 @@ class WriterTest extends TestCase
         $env = new Env;
         $env->add('APP_NAME', 'env-test-app', '.env.app');
         $env->add('APP_KEY', 'abcdef', '.env.app');
-        $env->add('APP_NAME', 'env-test-auth', '.env.auth', '.', true);
-        $env->add('DB_HOST', 'localhost', '.env.db', 'staging');
+        $env->add('APP_NAME', 'env-test-auth', '.env.auth', true);
+        $env->add('DB_HOST', 'localhost', 'staging/.env.db');
 
         Writer::write($env);
 

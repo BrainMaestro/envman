@@ -16,7 +16,7 @@ final class Parser
 
         foreach (self::getEnvContents($directories) as $envContent) {
             list($key, $value, $file) = explode('=', $envContent);
-            $env->add($key, $value, basename($file), dirname($file), true);
+            $env->add($key, $value, $file, true);
         }
 
         return $env;

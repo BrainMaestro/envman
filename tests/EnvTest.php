@@ -22,7 +22,7 @@ class EnvTest extends TestCase
     public function it_adds_an_env_variable()
     {
         $this->env->add('APP_NAME', 'env-test-app', '.env.app');
-        $this->env->add('AUTH_SECRET', 'very-secret-key', '.env.auth', 'environment');
+        $this->env->add('AUTH_SECRET', 'very-secret-key', 'environments/.env.auth');
 
         $this->assertTrue($this->env->has('APP_NAME'));
         $this->assertFalse($this->env->has('APP_KEY'));
@@ -50,7 +50,7 @@ class EnvTest extends TestCase
     public function it_adds_duplicate_env_variables()
     {
         $this->env->add('APP_NAME', 'env-test-app', '.env.app');
-        $this->env->add('APP_NAME', 'env-test-auth', '.env.auth', '.', true);
+        $this->env->add('APP_NAME', 'env-test-auth', '.env.auth', true);
 
         $this->assertTrue($this->env->has('APP_NAME'));
         $this->assertEquals(2, $this->env->entries('APP_NAME'));
