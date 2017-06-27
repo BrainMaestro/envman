@@ -9,22 +9,15 @@ class ParserTest extends TestCase
 {
     use TestUtil;
 
-    protected $parser;
-
-    public function setUp()
-    {
-        $this->parser = new Parser;
-    }
-
     /**
-     * @tes
+     * @test
      */
     public function it_parses_environment_variables_from_env_files()
     {
         file_put_contents('.env.app', "APP_NAME=env-test-app\nAPP_KEY=abcdef");
         file_put_contents('.env.auth', "AUTH_SECRET=very-secret-key\nAUTH_API=auth");
 
-        $env = $this->parser->parse();
+        $env = Parser::parse();
 
         $this->assertTrue($env->has('APP_NAME'));
         $this->assertTrue($env->has('APP_KEY'));
@@ -47,7 +40,7 @@ class ParserTest extends TestCase
         file_put_contents('.env.app', "APP_NAME=env-test-app");
         file_put_contents('.env.auth', "APP_NAME=env-test-auth");
 
-        $env = $this->parser->parse();
+        $env = Parser::parse();
 
         $this->assertTrue($env->has('APP_NAME'));
         $this->assertEquals(2, $env->entries('APP_NAME'));
@@ -62,16 +55,20 @@ class ParserTest extends TestCase
      */
     public function it_parses_environment_variables_from_a_custom_directory()
     {
-        mkdir('./environment');
-        file_put_contents('./environment/.env.app', "APP_NAME=env-test-app");
+        mkdir('staging');
+        mkdir('production');
+        file_put_contents('staging/.env.db', "DB_HOST=localhost");
+        file_put_contents('production/.env.app', "APP_NAME=env-test-app");
 
-        $env = (new Parser('./environment'))->parse();
+        $env = Parser::parse(['staging', 'production']);
 
         $this->assertTrue($env->has('APP_NAME'));
-        $this->assertEquals(1, $env->entries('APP_NAME'));
+        $this->assertEquals(['localhost'], $env->values('DB_HOST'));
         $this->assertEquals(['env-test-app'], $env->values('APP_NAME'));
-        $this->assertEquals(['./environment/.env.app'], $env->files('APP_NAME'));
+        $this->assertEquals(['staging/.env.db'], $env->files('DB_HOST'));
+        $this->assertEquals(['production/.env.app'], $env->files('APP_NAME'));
 
-        $this->delete('environment', 'app');
+        $this->delete('staging', 'db');
+        $this->delete('production', 'app');
     }
 }
