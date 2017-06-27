@@ -5,46 +5,27 @@ namespace BrainMaestro\Envman;
 class Parser
 {
     private $directory;
+    private $env;
 
     public function __construct(string $directory = '.')
     {
         $this->directory = $directory;
+        $this->env = new Env;
     }
 
     /**
      * Parse the environment variables from separate files
      *
-     * @return array
+     * @return Env
      */
-    public function parse(): array
+    public function parse(): Env
     {
-        return array_reduce($this->getEnvContents(), function (array &$vars, string $var) {
-            list($key, $value, $file) = explode('=', $var);
-            $envVar = ['value' => trim($value), 'file' => $file];
+        foreach ($this->getEnvContents() as $envContent) {
+            list($key, $value, $file) = explode('=', $envContent);
+            $this->env->add($key, $value, $file, true);
+        }
 
-            if (array_key_exists($key, $vars)) {
-                $vars[$key][] = $envVar;
-            } else {
-                $vars[$key] = [$envVar];
-            }
-
-            return $vars;
-        }, []);
-    }
-
-    /**
-     * Checks if an environment variable already exists
-     *
-     * @param string $key
-     * @return string
-     */
-    public function envExists(string $key): ?string
-    {
-        $parsedEnv = $this->parse();
-
-        return array_key_exists($key, $parsedEnv)
-            ? $parsedEnv[$key][0]['file']
-            : null;
+        return $this->env;
     }
 
     /**
