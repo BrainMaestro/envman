@@ -12,13 +12,18 @@ class Env
      * @param string $key
      * @param string $value
      * @param string $file
+     * @param string $directory
      * @param bool $duplicates
      * @return bool
      */
-    public function add(string $key, string $value, string $file, bool $duplicates = false): bool
+    public function add(string $key, string $value, string $file, string $directory = '.', bool $duplicates = false): bool
     {
         if (! $duplicates && $this->has($key)) {
             return false;
+        }
+
+        if ($directory !== '.') {
+            $file = "{$directory}/{$file}";
         }
 
         $this->env[$key] = $this->env[$key] ?? [];
@@ -96,9 +101,8 @@ class Env
      */
     private function get(string $key, string $value): array
     {
-        return array_reduce($this->env[$key], function (array &$values, array $entry) use ($value) {
-            $values[] = $entry[$value];
-            return $values;
-        }, []);
+        return array_map(function (array $entry) use ($value) {
+            return $entry[$value];
+        }, $this->env[$key]);
     }
 }
