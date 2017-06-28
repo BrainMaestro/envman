@@ -78,7 +78,12 @@ class Env
      */
     public function all(): \Generator
     {
-        ksort($this->env);
+        uksort($this->env, function (string $a, string $b) {
+            $a = preg_replace('/^[#\$]/', '', $a);
+            $b = preg_replace('/^[#\$]/', '', $b);
+
+            return strcasecmp($a, $b);
+        });
 
         foreach ($this->env as $key => $entries) {
             foreach ($entries as $entry) {
