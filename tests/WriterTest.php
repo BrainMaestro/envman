@@ -23,7 +23,7 @@ class WriterTest extends TestCase
 
         Writer::write($env);
 
-        $this->assertEquals('APP_KEY=abcdef\nAPP_NAME=env-test-app', file_get_contents('.env.app'));
+        $this->assertEquals("APP_KEY=abcdef\nAPP_NAME=env-test-app", file_get_contents('.env.app'));
         $this->assertEquals('APP_NAME=env-test-auth', file_get_contents('.env.auth'));
         $this->assertEquals('DB_HOST=localhost', file_get_contents('staging/.env.db'));
 
