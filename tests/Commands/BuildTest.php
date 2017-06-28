@@ -57,4 +57,22 @@ class BuildTest extends TestCase
         $this->delete('staging', 'app');
         unlink('.env');
     }
+
+    /**
+     * @test
+     */
+    public function it_does_not_build_comments_into_the_env_file()
+    {
+        file_put_contents('.env.auth', "#AUTH_SECRET=very-secret-key\nAUTH_API=auth");
+
+        $this->commandTester->execute(['directories' => ['.', 'staging']]);
+
+        $this->assertEquals(
+            "AUTH_API=auth\n",
+            file_get_contents('.env')
+        );
+
+        $this->delete('.', 'auth');
+        unlink('.env');
+    }
 }

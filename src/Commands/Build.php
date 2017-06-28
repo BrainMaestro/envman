@@ -3,7 +3,6 @@
 namespace BrainMaestro\Envman\Commands;
 
 use BrainMaestro\Envman\Parser;
-use BrainMaestro\Envman\Writer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,6 +33,11 @@ class Build extends Command
         $file = fopen('.env', 'w+');
 
         foreach ($env->all() as $key => $entry) {
+            // lines that start with a '#' are comments
+            if ($key[0] == '#') {
+                continue;
+            }
+
             fwrite($file, "{$key}={$entry['value']}\n");
         }
 
