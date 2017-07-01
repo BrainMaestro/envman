@@ -30,7 +30,7 @@ class Build extends Command
                 'key',
                 'k',
                 InputOption::VALUE_REQUIRED,
-                'Key file for encryption'
+                'Key file for decryption'
             )
         ;
     }
