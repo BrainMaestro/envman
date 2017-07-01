@@ -126,6 +126,52 @@ class Env
     }
 
     /**
+     * Get env files from all directories
+     *
+     * @param array $directories
+     * @return array
+     */
+    public static function getFiles(array $directories): array
+    {
+        return array_reduce($directories, function (array &$files, string $directory) {
+            $_files = self::getDirectoryEnvFiles($directory);
+            array_walk($_files, function (string &$file) use ($directory) {
+                if ($directory !== '.') {
+                    $file = "{$directory}/{$file}";
+                }
+            });
+
+            return array_merge($files, $_files);
+        }, []);
+    }
+
+    /**
+     * Check if a file is an env file
+     *
+     * @param string $file
+     * @return bool
+     */
+    public static function isEnvFile(string $file): bool
+    {
+        return preg_match('/^\.env\./', $file);
+    }
+
+    /**
+     * Get .env files in a directory
+     *
+     * @param string $directory
+     * @return array
+     */
+    private static function getDirectoryEnvFiles(string $directory): array
+    {
+        if (! is_dir($directory)) {
+            return [];
+        }
+
+        return array_filter(scandir($directory), 'self::isEnvFile');
+    }
+
+    /**
      * Get a value from an env key
      *
      * @param string $key
