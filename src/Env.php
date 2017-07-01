@@ -126,6 +126,22 @@ class Env
     }
 
     /**
+     * Mark a key as encrypted
+     *
+     * @param string $key
+     * @return void
+     */
+    public function encryptKey(string $key)
+    {
+        if (! $this->has($key) || $this->isEncrypted($key)) {
+            return;
+        }
+
+        $this->env["\${$key}"] = $this->env[$key];
+        unset($this->env[$key]);
+    }
+
+    /**
      * Get env files from all directories
      *
      * @param array $directories
