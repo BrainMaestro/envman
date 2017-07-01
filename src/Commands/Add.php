@@ -34,7 +34,7 @@ class Add extends Command
                 'File to store new environment variable',
                 'example'
             )
-            ->addOption('dir', 'd', InputOption::VALUE_REQUIRED, 'Path to env directory', '.')
+            ->addOption('dir', 'd', InputOption::VALUE_REQUIRED, 'Directory of env file', '.')
             ->addOption('allow-duplicates', 'a', InputOption::VALUE_NONE, 'Allow duplication of env variables')
         ;
     }
