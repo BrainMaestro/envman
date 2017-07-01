@@ -23,7 +23,8 @@
         }
     },
     "require": {
-        "symfony/console": "^3.3"
+        "symfony/console": "^3.3",
+        "defuse/php-encryption": "^2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2"

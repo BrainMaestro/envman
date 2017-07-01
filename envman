@@ -16,6 +16,7 @@ if (is_file($autoload = __DIR__ . '/vendor/autoload.php')) {
 
 use BrainMaestro\Envman\Commands\Add;
 use BrainMaestro\Envman\Commands\Build;
+use BrainMaestro\Envman\Commands\GenerateKey;
 use BrainMaestro\Envman\Commands\Show;
 use Symfony\Component\Console\Application;
 
@@ -23,6 +24,7 @@ $application = new Application('Envman', 'v0.1.0');
 
 $application->add(new Add);
 $application->add(new Build);
+$application->add(new GenerateKey);
 $application->add(new Show);
 
 $application->run();
