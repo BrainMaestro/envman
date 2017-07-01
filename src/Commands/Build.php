@@ -33,8 +33,7 @@ class Build extends Command
         $file = fopen('.env', 'w+');
 
         foreach ($env->all() as $key => $entry) {
-            // lines that start with a '#' are comments
-            if ($key[0] == '#') {
+            if ($env->isComment($key)) {
                 continue;
             }
 

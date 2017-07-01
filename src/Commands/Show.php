@@ -42,9 +42,9 @@ class Show extends Command
         $table->setHeaders(['Key', 'Value', 'File']);
 
         foreach ($env->all() as $key => $entry) {
-            $comment = $key[0] === '#';
-            $duplicate = $env->entries($key) > 1;
-            $encrypted = $key[0] === '$';
+            $comment = $env->isComment($key);
+            $duplicate = $env->isDuplicate($key);
+            $encrypted = $env->isEncrypted($key);
 
             if ($this->skip($input, $comment, $duplicate, $encrypted)) {
                 continue;

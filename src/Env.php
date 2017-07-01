@@ -93,6 +93,39 @@ class Env
     }
 
     /**
+     * Check if env entry for key is a comment
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isComment(string $key): bool
+    {
+        return $this->has($key) && $key[0] === '#';
+    }
+
+    /**
+     * Check if env entry is duplicated
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isDuplicate(string $key): bool
+    {
+        return $this->entries($key) > 1;
+    }
+
+    /**
+     * Check if env entry for key is encrypted
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isEncrypted(string $key): bool
+    {
+        return $this->has($key) && $key[0] === '$';
+    }
+
+    /**
      * Get a value from an env key
      *
      * @param string $key
