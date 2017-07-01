@@ -90,6 +90,20 @@ class ShowTest extends TestCase
         $this->assertNotContains('AUTH_SECRET', $this->commandTester->getDisplay());
     }
 
+    /**
+     * @test
+     */
+    public function it_does_not_list_any_environment_variables()
+    {
+        $this->commandTester->execute(['directories' => ['environment']]);
+
+        $this->assertEmpty($this->commandTester->getDisplay());
+        $this->assertNotContains('APP_KEY', $this->commandTester->getDisplay());
+        $this->assertNotContains('APP_NAME', $this->commandTester->getDisplay());
+        $this->assertNotContains('AUTH_API', $this->commandTester->getDisplay());
+        $this->assertNotContains('AUTH_SECRET', $this->commandTester->getDisplay());
+    }
+
     public function tearDown()
     {
         $this->delete('.', 'app', 'auth');

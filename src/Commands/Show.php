@@ -34,11 +34,13 @@ class Show extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $directories = $input->getArgument('directories');
-
-
         $env = Parser::parse($directories);
-        $table = new Table($output);
 
+        if ($env->entries() === 0) {
+            return;
+        }
+
+        $table = new Table($output);
         $table->setHeaders(['Key', 'Value', 'File']);
 
         foreach ($env->all() as $key => $entry) {

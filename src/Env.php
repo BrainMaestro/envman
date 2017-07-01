@@ -61,14 +61,14 @@ class Env
     }
 
     /**
-     * Get number of entries of an env key
+     * Get number of entries of an env key or the entire env
      *
      * @param string $key
      * @return int
      */
-    public function entries(string $key): int
+    public function entries(string $key = null): int
     {
-        return count($this->env[$key]);
+        return count($key ? $this->env[$key] : $this->env);
     }
 
     /**
