@@ -172,7 +172,7 @@ class Env
      * @param string $file
      * @return bool
      */
-    private static function isEnvFile(string $file): bool
+    public static function isEnvFile(string $file): bool
     {
         return preg_match('/^\.env\./', $file);
     }

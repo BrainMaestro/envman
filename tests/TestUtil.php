@@ -2,18 +2,22 @@
 
 namespace BrainMaestro\Envman\Tests;
 
+use BrainMaestro\Envman\Env;
+
 trait TestUtil
 {
-    public function delete(string $directory, string ...$files)
+    public function deleteEnv(string ...$directories)
     {
-        foreach ($files as $file) {
-            if (is_file("{$directory}/.env.{$file}")) {
-                unlink("{$directory}/.env.{$file}");
+        foreach ($directories as $directory) {
+            foreach (scandir($directory) as $file) {
+                if (Env::isEnvFile($file)) {
+                    unlink("{$directory}/{$file}");
+                }
             }
-        }
 
-        if (count(scandir($directory)) === 2) {
-            rmdir($directory);
+            if (count(scandir($directory)) === 2) {
+                rmdir($directory);
+            }
         }
     }
 }

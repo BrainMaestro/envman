@@ -64,6 +64,6 @@ class Encrypt extends Command
 
         Writer::write($env);
 
-        $output->writeln("Encrypted <info>{$count}</info> key(s)");
+        $output->writeln("Encrypted <info>{$count}</info> environment variable(s)");
     }
 }

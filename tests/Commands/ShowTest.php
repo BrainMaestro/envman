@@ -21,6 +21,11 @@ class ShowTest extends TestCase
         file_put_contents('.env.auth', "APP_NAME=env-test-auth\n\$AUTH_SECRET=very-secret-key\n#AUTH_API=auth");
     }
 
+    public function tearDown()
+    {
+        $this->deleteEnv('.');
+    }
+
     /**
      * @test
      */
@@ -102,10 +107,5 @@ class ShowTest extends TestCase
         $this->assertNotContains('APP_NAME', $this->commandTester->getDisplay());
         $this->assertNotContains('AUTH_API', $this->commandTester->getDisplay());
         $this->assertNotContains('AUTH_SECRET', $this->commandTester->getDisplay());
-    }
-
-    public function tearDown()
-    {
-        $this->delete('.', 'app', 'auth');
     }
 }

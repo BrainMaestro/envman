@@ -27,8 +27,7 @@ class WriterTest extends TestCase
         $this->assertEquals('APP_NAME=env-test-auth', file_get_contents('.env.auth'));
         $this->assertEquals('DB_HOST=localhost', file_get_contents('staging/.env.db'));
 
-        $this->delete('.', 'app', 'auth');
-        $this->delete('staging', 'db');
+        $this->deleteEnv('.', 'staging');
     }
 
     /**
@@ -44,6 +43,6 @@ class WriterTest extends TestCase
 
         $this->assertEquals('APP_NAME=env-test-app', file_get_contents('.env.app'));
 
-        $this->delete('.', 'app');
+        $this->deleteEnv('.');
     }
 }

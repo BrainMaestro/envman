@@ -23,6 +23,7 @@ class BuildTest extends TestCase
     public function tearDown()
     {
         unlink('.env');
+        $this->deleteEnv('.');
     }
 
     /**
@@ -39,8 +40,6 @@ class BuildTest extends TestCase
             "APP_KEY=abcdef\nAPP_NAME=env-test-app\nAUTH_API=auth\nAUTH_SECRET=very-secret-key\n",
             file_get_contents('.env')
         );
-
-        $this->delete('.', 'app', 'auth');
     }
 
     /**
@@ -59,8 +58,7 @@ class BuildTest extends TestCase
             file_get_contents('.env')
         );
 
-        $this->delete('.', 'auth');
-        $this->delete('staging', 'app');
+        $this->deleteEnv('staging');
     }
 
     /**
@@ -76,8 +74,6 @@ class BuildTest extends TestCase
             "AUTH_API=auth\n",
             file_get_contents('.env')
         );
-
-        $this->delete('.', 'auth');
     }
 
     /**
@@ -93,7 +89,6 @@ class BuildTest extends TestCase
 
         $this->assertContains('Built 1 environment variable(s)', $this->commandTester->getDisplay());
 
-        $this->delete('.', 'app');
         unlink('env-test-key');
     }
 
@@ -107,8 +102,6 @@ class BuildTest extends TestCase
         $this->commandTester->execute([]);
 
         $this->assertContains('Built 0 environment variable(s)', $this->commandTester->getDisplay());
-
-        $this->delete('.', 'app');
     }
 
     /**
@@ -122,7 +115,6 @@ class BuildTest extends TestCase
 
         $this->assertContains('The key you provided is incorrect', $this->commandTester->getDisplay());
 
-        $this->delete('.', 'app');
         unlink('env-test-key');
     }
 }

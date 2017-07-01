@@ -31,8 +31,7 @@ class EncryptTest extends TestCase
     public function tearDown()
     {
         unlink('env-test-key');
-        $this->delete('.', 'app', 'auth');
-        $this->delete('staging', 'db', 'cache');
+        $this->deleteEnv('.', 'staging');
     }
 
     /**
@@ -42,7 +41,7 @@ class EncryptTest extends TestCase
     {
         $this->commandTester->execute(['targets' => ['.env.app', '.env.auth', 'staging'], '--key' => 'env-test-key']);
 
-        $this->assertContains('Encrypted 3 key(s)', $this->commandTester->getDisplay());
+        $this->assertContains('Encrypted 3 environment variable(s)', $this->commandTester->getDisplay());
 
         $env = Parser::parse(['staging'], ['.env.app', '.env.auth']);
 

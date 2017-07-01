@@ -29,7 +29,7 @@ class ParserTest extends TestCase
         $this->assertEquals(['.env.app'], $env->files('APP_KEY'));
         $this->assertEquals(['.env.auth'], $env->files('AUTH_API'));
 
-        $this->delete('.', 'app', 'auth');
+        $this->deleteEnv('.');
     }
 
     /**
@@ -47,7 +47,7 @@ class ParserTest extends TestCase
         $this->assertEquals(['env-test-app', 'env-test-auth'], $env->values('APP_NAME'));
         $this->assertEquals(['.env.app', '.env.auth'], $env->files('APP_NAME'));
 
-        $this->delete('.', 'app', 'auth');
+        $this->deleteEnv('.');
     }
 
     /**
@@ -68,7 +68,6 @@ class ParserTest extends TestCase
         $this->assertEquals(['staging/.env.db'], $env->files('DB_HOST'));
         $this->assertEquals(['production/.env.app'], $env->files('APP_NAME'));
 
-        $this->delete('staging', 'db');
-        $this->delete('production', 'app');
+        $this->deleteEnv('staging', 'production');
     }
 }

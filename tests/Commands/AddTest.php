@@ -21,7 +21,12 @@ class AddTest extends TestCase
     public function setUp()
     {
         $this->commandTester = new CommandTester(new Add);
-        $this->delete('.', $this->data['file']);
+        $this->deleteEnv('.');
+    }
+
+    public function tearDown()
+    {
+        $this->deleteEnv('.');
     }
 
     /**
@@ -64,11 +69,6 @@ class AddTest extends TestCase
         $this->commandTester->execute(array_merge($this->data, ['--dir' => 'environment']));
 
         $this->assertContains('Added APP_NAME=env-test-app to environment/.env.app', $this->commandTester->getDisplay());
-        $this->delete('environment', $this->data['file']);
-    }
-
-    public function tearDown()
-    {
-        $this->delete('.', $this->data['file']);
+        $this->deleteEnv('environment');
     }
 }
