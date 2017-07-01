@@ -55,7 +55,8 @@ class Show extends Command
             list($open, $close) = $this->getTag($comment, $duplicate, $encrypted);
 
             $key = $open . preg_replace('/^[#\$]/', '', $key) . $close;
-            $table->addRow([$key, $entry['value'], $entry['file']]);
+            $value = $encrypted ? '##########' : $entry['value'];
+            $table->addRow([$key, $value, $entry['file']]);
         }
 
         $table->render();

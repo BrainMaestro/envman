@@ -93,7 +93,7 @@ class ShowTest extends TestCase
     /**
      * @test
      */
-    public function it_does_not_list_any_environment_variables()
+    public function it_does_not_list_any_environment_variables_if_none_are_present()
     {
         $this->commandTester->execute(['directories' => ['environment']]);
 

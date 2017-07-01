@@ -8,10 +8,9 @@ final class Writer
      * Write contents of the env to the respective files
      *
      * @param Env $env
-     * @param bool $build
      * @return void
      */
-    public static function write(Env $env, bool $build = false)
+    public static function write(Env $env)
     {
         $output = [];
 

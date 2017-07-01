@@ -56,7 +56,7 @@ class Add extends Command
         if (! $env->add($key, $value, $file, $duplicates)) {
             $files = implode(', ', $env->files($key));
             $output->writeln("<error>{$key} already exists in {$files}</error>");
-            return;
+            return 1;
         }
 
         Writer::write($env);
