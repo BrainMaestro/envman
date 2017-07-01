@@ -8,13 +8,14 @@ final class Parser
      * Parse the environment variables from separate files
      *
      * @param array $directories
+     * @param array $files
      * @return Env
      */
-    public static function parse(array $directories = ['.']): Env
+    public static function parse(array $directories = ['.'], array $files = []): Env
     {
         $env = new Env;
 
-        foreach (self::getEnvContents($directories) as $envContent) {
+        foreach (self::getEnvContents($directories, $files) as $envContent) {
             list($key, $value, $file) = explode('=', $envContent);
             $env->add($key, $value, $file, true);
         }
@@ -26,11 +27,12 @@ final class Parser
      * Gets the contents of the env files together
      *
      * @param array $directories
+     * @param array $files
      * @return array
      */
-    private static function getEnvContents(array $directories): array
+    private static function getEnvContents(array $directories, array $files): array
     {
-        return array_reduce(Env::getFiles($directories), function (array &$lines, string $file) {
+        return array_reduce(Env::getFiles($directories, $files), function (array &$lines, string $file) {
             $_lines = file($file);
             array_walk($_lines, function (string &$line) use ($file) {
                 $line .= "={$file}";

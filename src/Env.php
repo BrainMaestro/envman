@@ -76,7 +76,7 @@ class Env
      *
      * @return \Generator
      */
-    public function all(): \Generator
+    public function &all(): \Generator
     {
         uksort($this->env, function (string $a, string $b) {
             $a = preg_replace('/^[#\$]/', '', $a);
@@ -85,8 +85,8 @@ class Env
             return strcasecmp($a, $b);
         });
 
-        foreach ($this->env as $key => $entries) {
-            foreach ($entries as $entry) {
+        foreach ($this->env as $key => &$entries) {
+            foreach ($entries as &$entry) {
                 yield $key => $entry;
             }
         }
@@ -129,11 +129,14 @@ class Env
      * Get env files from all directories
      *
      * @param array $directories
+     * @param array $files
      * @return array
      */
-    public static function getFiles(array $directories): array
+    public static function getFiles(array $directories, array $files): array
     {
-        return array_reduce($directories, function (array &$files, string $directory) {
+        $files = array_filter($files, 'self::isEnvFile');
+
+        $directoryFiles = array_reduce($directories, function (array &$files, string $directory) {
             $_files = self::getDirectoryEnvFiles($directory);
             array_walk($_files, function (string &$file) use ($directory) {
                 if ($directory !== '.') {
@@ -143,6 +146,8 @@ class Env
 
             return array_merge($files, $_files);
         }, []);
+
+        return array_unique(array_merge($files, $directoryFiles));
     }
 
     /**
@@ -151,7 +156,7 @@ class Env
      * @param string $file
      * @return bool
      */
-    public static function isEnvFile(string $file): bool
+    private static function isEnvFile(string $file): bool
     {
         return preg_match('/^\.env\./', $file);
     }
